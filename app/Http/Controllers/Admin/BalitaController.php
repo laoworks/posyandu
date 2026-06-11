@@ -75,7 +75,14 @@ class BalitaController extends Controller
 
     public function edit(BayiBalita $balitum)
     {
-        return view('admin.balita.edit', compact('balitum'));
+        $orangTua = User::role('orang_tua')
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.balita.edit', [
+            'balitum' => $balitum,
+            'orangTua' => $orangTua,
+        ]);
     }
 
     public function update(Request $request, BayiBalita $balitum)
