@@ -14,10 +14,11 @@ class AnakController extends Controller
     {
         $search = $request->search;
 
-        $anak = BayiBalita::where('user_id', Auth::id())
+        $anak = BayiBalita::query()
+            ->where('user_id', Auth::id())
             ->when($search, function ($query) use ($search) {
-                $query->where(function ($childQuery) use ($search) {
-                    $childQuery->where('nama', 'like', "%{$search}%")
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%")
                         ->orWhere('nik', 'like', "%{$search}%");
                 });
             })
@@ -30,11 +31,11 @@ class AnakController extends Controller
 
     public function show(BayiBalita $anak): View
     {
-        abort_unless($anak->user_id === Auth::id(), 404);
+        abort_unless($anak->user_id == Auth::id(), 404);
 
         $anak->load([
             'penimbangan' => fn($query) => $query->latest()->take(5),
-            'imunisasi' => fn($query) => $query->latest()->take(5),
+            'imunisasi'   => fn($query) => $query->latest()->take(5),
         ]);
 
         return view('orangtua.anak.show', compact('anak'));

@@ -12,7 +12,7 @@ class BayiBalita extends Model
     protected $table = 'bayi_balita';
 
     protected $fillable = [
-
+        'user_id',
         'nik',
         'nama',
         'jenis_kelamin',
@@ -21,15 +21,11 @@ class BayiBalita extends Model
         'berat_lahir',
         'tinggi_lahir',
         'foto',
-
         'nama_ayah',
         'nama_ibu',
         'no_hp_ortu',
         'alamat',
-
-        'user_id',
     ];
-
     protected $casts = [
         'tanggal_lahir' => 'date',
     ];
